@@ -29,7 +29,7 @@ pipeline {
                 echo 'Sonar Scanner'
                	//def scannerHome = tool 'SonarQube'
 			    withSonarQubeEnv('SonarQube Server') {
-			    	bat 'C:\Users\kaustubh.aras\Desktop\sonarqube-8.1.0.31237\sonarqube-8.1.0.31237\bin\windows-x86-64'
+			    	bat 'C:/Users/kaustubh.aras/Desktop/sonarqube-8.1.0.31237/sonarqube-8.1.0.31237/bin/windows-x86-64'
 			    }
             }
         }
