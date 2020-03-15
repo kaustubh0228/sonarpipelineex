@@ -12,10 +12,16 @@ pipeline {
                 bat 'mvn clean compile'
             }
         }
-        stage('Package') {
+        stage('Test') {
             steps {
-                echo 'Packaging'
-                bat 'mvn package -DskipTests'
+                echo 'Testing'
+                bat 'mvn test'
+            }
+        }
+        stage('JaCoCo') {
+            steps {
+                echo 'Code Coverage'
+                jacoco()
             }
         }
         stage('Sonar') {
@@ -27,24 +33,10 @@ pipeline {
 			    }
             }
         }
-        stage("Quality Gate Status Check"){
-          timeout(time: 1, unit: 'HOURS') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              }
-          }
-      }    
-        stage('Test') {
+        stage('Package') {
             steps {
-                echo 'Testing'
-                bat 'mvn test'
-            }
-        }
-        stage('JaCoCo') {
-            steps {
-                echo 'Code Coverage'
-                jacoco()
+                echo 'Packaging'
+                bat 'mvn package -DskipTests'
             }
         }
         stage('Deploy') {
