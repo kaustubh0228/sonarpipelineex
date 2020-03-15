@@ -1,0 +1,23 @@
+node{
+   stage('SCM Checkout'){
+        echo 'Checkout'
+   }
+   stage('Compile-Package'){
+        echo 'Packaging'
+        bat 'mvn package -DskipTests'    
+   }
+   stage('SonarQube Analysis') {
+        echo 'Sonar Scanner'
+			  withSonarQubeEnv('SonarQube') {
+			    	bat 'C:/Users/kaustubh.aras/Desktop/sonar-scanner-cli-4.2.0.1873-windows/sonar-scanner-4.2.0.1873-windows/bin/sonar-scanner'
+			  }
+    } 
+    stage("Quality Gate Status Check"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+      }    
+}
