@@ -27,14 +27,14 @@ pipeline {
 			    }
             }
         }
-        stage('Sonar Status Check') {
-        	timeout(time: 1, unit:'HOURS'){
-        		def qq = waitForQualityGate()
-        		if(qq.status != 'OK'){
-        			error "Pipeline Aborted due to quality gate failure: ${qq.status}"
-        		}
-        	}
-        }
+        stage("Quality Gate Status Check"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+      }    
         stage('Test') {
             steps {
                 echo 'Testing'
