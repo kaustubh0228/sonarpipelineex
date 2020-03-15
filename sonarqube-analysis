@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo 'Sonar Scanner'
                	//def scannerHome = tool 'SonarQube'
-			    withSonarQubeEnv('SonarQube Server') {
+			    withSonarQubeEnv('SonarQube') {
 			    	bat 'C:/Users/kaustubh.aras/Desktop/sonar-scanner-cli-4.2.0.1873-windows/sonar-scanner-4.2.0.1873-windows/bin/sonar-scanner'
 			    }
             }
